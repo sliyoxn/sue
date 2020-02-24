@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:s-on="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:s-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+
+    <div id="app" class="container" data-tar="sakura">
+        <div s-on:click="onDivClick">
+            a : {{a}}
+            b : {{b}}
+        </div>
+        <div>
+            <span>
+                obj.c : {{obj.c}}
+            </span>
+        </div>
+        <p>arr : {{arr}}</p>
+        <p>arr[1] : {{arr[1]}}</p>
+        <div>
+            <p>{{name}}</p>
+            <input s-model="name" type="text"/>
+        </div>
+        <p>{{sum}}</p>
+        <p s-if="flag">flag</p>
+        <p>{{doubleSum}}</p>
+        <img s-bind:src="imgSrc" alt="" width="400px" />
+    </div>
+
+
+    <script type="module">
+
+
+        import Sue from "./src/index.js";
+        import {setVal} from "./src/compiler/util.js";
+
+
+        window.vm = new Sue({
+            el : "#app",
+            data : {
+                a : 1,
+                b : 2,
+                obj : {
+                    c : 3
+                },
+                name : "123",
+                age : 16,
+                arr : [1, 2, 3, 4],
+                imgSrc : "https://img.moegirl.org/common/5/55/%E3%80%8A%E6%9C%AB%E6%97%A5%E6%97%B6%E5%9C%A8%E5%81%9A%E4%BB%80%E4%B9%88%EF%BC%9F%E6%9C%89%E6%B2%A1%E6%9C%89%E7%A9%BA%EF%BC%9F%E5%8F%AF%E4%BB%A5%E6%9D%A5%E6%8B%AF%E6%95%91%E5%90%97%EF%BC%9F%E3%80%8B%E7%89%B9%E5%85%B86.png",
+                flag : false,
+                stuArr : [{
+                    id : 12,
+                    name : "sena"
+                }, {
+                    id : 13,
+                    name : "sakura"
+                }, {
+                    id : "14",
+                    name : "sion"
+                }]
+            },
+            computed : {
+                doubleSum() {
+					return this.sum * 2;
+				},
+                sum () {
+                    let a = this.a;
+                    let b = this.b;
+                    let c = this.obj.c;
+                    return a + b + c;
+                },
+
+            },
+            watch : {
+                age : function (newAge, oldAge) {
+                    console.log(newAge, oldAge, this);
+                }
+            },
+            method : {
+                onDivClick(event) {
+                    console.log("点击");
+                }
+            },
+            mounted() {
+                console.log("挂载完成",this);
+            }
+        });
+
+
+        window.obj = {
+            data : {
+                a : 10
+            }
+        };
+
+        setVal(obj, "data.a", 20);
+
+		// computed : {
+		// 	doubleSum() {
+		// 		return this.sum * 2;
+		// 	},
+		// 	sum () {
+		// 		let a = this.a;
+		// 		let b = this.b;
+		// 		let c = this.obj.c;
+		// 		return a + b + c;
+		// 	},
+        //
+		// },
+
+    </script>
+</body>
+</html>
